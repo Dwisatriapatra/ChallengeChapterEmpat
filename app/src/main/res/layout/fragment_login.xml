@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginFragment">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:text="LOGIN"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/text_login"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:id="@+id/image_login"
+        android:layout_below="@id/text_login"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan email"
+        android:padding="3dp"
+        android:layout_below="@id/image_login"
+        android:layout_marginHorizontal="15dp"
+        android:id="@+id/login_input_email"
+        android:background="@drawable/custom_layout_edit_text"
+        android:layout_marginBottom="10dp"
+        android:textSize="24sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan password"
+        android:padding="3dp"
+        android:layout_below="@id/login_input_email"
+        android:layout_marginHorizontal="15dp"
+        android:id="@+id/login_input_password"
+        android:background="@drawable/custom_layout_edit_text"
+        android:layout_marginBottom="10dp"
+        android:textSize="24sp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:id="@+id/login_button_login"
+        android:layout_marginHorizontal="50dp"
+        android:layout_above="@id/login_belum_punya_akun"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Belum punya akun?"
+        android:textSize="22sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:textColor="@color/black"
+        android:id="@+id/login_belum_punya_akun"/>
+</RelativeLayout>
