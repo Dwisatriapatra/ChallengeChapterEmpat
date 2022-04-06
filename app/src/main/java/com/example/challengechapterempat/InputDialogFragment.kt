@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_input_dialog.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-
+//tested, success
 class InputDialogFragment : DialogFragment() {
     private var dbCatatan : CatatanDatabase? = null
     override fun onCreateView(
