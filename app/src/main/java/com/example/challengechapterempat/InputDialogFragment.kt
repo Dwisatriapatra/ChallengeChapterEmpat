@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_input_dialog.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 //tested, success
+@DelicateCoroutinesApi
 class InputDialogFragment : DialogFragment() {
     private var dbCatatan : CatatanDatabase? = null
     override fun onCreateView(
@@ -28,7 +30,7 @@ class InputDialogFragment : DialogFragment() {
                 val judul = tambah_input_judul.text.toString()
                 val catatan = tambah_input_catatan.text.toString()
                 val process = dbCatatan?.catatanDao()?.insertCatatan(Catatan(null, judul, catatan))
-                runOnUiThread {
+                activity?.runOnUiThread {
                     if(process != 0.toLong()){
                         Toast.makeText(requireContext(), "Sukses", Toast.LENGTH_SHORT).show()
                     }else{
@@ -40,9 +42,9 @@ class InputDialogFragment : DialogFragment() {
         }
 
     }
-    private fun DialogFragment?.runOnUiThread(action: () -> Unit) {
-        this ?: return
-        if (!isAdded) return // Fragment not attached to an Activity
-        activity?.runOnUiThread(action)
+
+    override fun onDetach() {
+        super.onDetach()
+        activity?.recreate()
     }
 }

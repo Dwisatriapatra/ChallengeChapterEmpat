@@ -15,7 +15,7 @@ abstract class CatatanDatabase : RoomDatabase() {
             if (INSTANCE == null){
                 synchronized(CatatanDatabase::class){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        CatatanDatabase::class.java,"Catatan.db").build()
+                        CatatanDatabase::class.java,"Catatan.db").allowMainThreadQueries().build()
                 }
             }
             return INSTANCE
