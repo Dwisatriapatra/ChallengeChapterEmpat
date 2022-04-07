@@ -13,4 +13,8 @@
     <string name="masukkan_email">Masukkan email</string>
     <string name="masukkan_password">Masukkan password</string>
     <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="register">REGISTER</string>
+    <string name="masukkan_username">Masukkan username</string>
+    <string name="masukkan_konfirmasi_password">Masukkan konfirmasi password</string>
+    <string name="daftar">DAFTAR</string>
 </resources>
