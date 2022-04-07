@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.custom_layout_dialog_edit_data.view.*
 import kotlinx.android.synthetic.main.custom_layout_dialog_hapus_data.view.*
 import kotlinx.android.synthetic.main.item_adapter_catatan.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -26,33 +27,64 @@ class CatatanAdapter(private val listCatatan : List<Catatan>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.tv_judul.text = "Judul : \n${listCatatan[position].judul}"
         holder.itemView.tv_catatan.text = "Catatan : \n${listCatatan[position].catatan}"
+
         //Delete data
         holder.itemView.button_delete.setOnClickListener {
             dbCatatan = CatatanDatabase.getInstance(it.context)
-            val customDialog = LayoutInflater.from(it.context)
+            val customDialogDelete = LayoutInflater.from(it.context)
                 .inflate(R.layout.custom_layout_dialog_hapus_data, null, false)
             val hapusDataDialog = AlertDialog.Builder(it.context)
-                .setView(customDialog)
+                .setView(customDialogDelete)
                 .create()
-            customDialog.hapus_dialog_button_cancel.setOnClickListener {
+            customDialogDelete.hapus_dialog_button_cancel.setOnClickListener {
                 hapusDataDialog.dismiss()
             }
-            customDialog.hapus_dialog_button_hapus.setOnClickListener {
+            customDialogDelete.hapus_dialog_button_hapus.setOnClickListener {
                 GlobalScope.async {
                     val result = dbCatatan?.catatanDao()?.deleteDataCatatan(listCatatan[position])
 
-                    (customDialog.context as MainActivity).runOnUiThread{
+                    (customDialogDelete.context as MainActivity).runOnUiThread{
                         if(result != 0){
-                            Toast.makeText(customDialog.context, "Catatan ${listCatatan[position].judul} berhasil dihapus", Toast.LENGTH_SHORT).show()
-                            (customDialog.context as MainActivity).recreate()
+                            Toast.makeText(customDialogDelete.context, "Catatan ${listCatatan[position].judul} berhasil dihapus", Toast.LENGTH_SHORT).show()
+                            (customDialogDelete.context as MainActivity).recreate()
                         }else{
-                            Toast.makeText(customDialog.context, "Catatan ${listCatatan[position].judul} gagal dihapus", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(customDialogDelete.context, "Catatan ${listCatatan[position].judul} gagal dihapus", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
             hapusDataDialog.show()
         }
+
+        //edit data
+        holder.itemView.button_edit.setOnClickListener {
+            dbCatatan = CatatanDatabase.getInstance(it.context)
+            val customDialogEdit = LayoutInflater.from(it.context)
+                .inflate(R.layout.custom_layout_dialog_edit_data, null, false)
+            val editDataDialog = AlertDialog.Builder(it.context)
+                .setView(customDialogEdit)
+                .create()
+            customDialogEdit.edit_button_update_data.setOnClickListener {
+                val newJudul = customDialogEdit.edit_input_judul.text.toString()
+                val newCatatan = customDialogEdit.edit_input_catatan.text.toString()
+                listCatatan[position].judul = newJudul
+                listCatatan[position].catatan = newCatatan
+                GlobalScope.async {
+                    val command = dbCatatan?.catatanDao()?.updateDataCatatan(listCatatan[position])
+                    (customDialogEdit.context as MainActivity).runOnUiThread{
+                        if(command != 0){
+                            Toast.makeText(it.context, "Catatan berhasil diupdate", Toast.LENGTH_SHORT).show()
+                            (customDialogEdit.context as MainActivity).recreate()
+                        }else{
+                            Toast.makeText(it.context, "Catatan gagal diupdate", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+            editDataDialog.show()
+        }
+
+
     }
 
     override fun getItemCount(): Int {

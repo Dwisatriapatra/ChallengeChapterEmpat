@@ -3,10 +3,10 @@ package com.example.challengechapterempat
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -29,12 +29,18 @@ class HomeFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
         val username = sharedPreferences.getString("USERNAME", "")
         home_username_text.text = "Halo, $username"
+        dbCatatan = CatatanDatabase.getInstance(requireContext())
+        getDataCatatan()
 
+        //action button for tambah data
         fab_tambah.setOnClickListener {
             InputDialogFragment().show(childFragmentManager, "InputDialogFragment")
         }
-        dbCatatan = CatatanDatabase.getInstance(requireContext())
-        getDataCatatan()
+
+        //action for logout
+        logout.setOnClickListener {
+            logout()
+        }
     }
     private fun getDataCatatan() {
         rv_catatan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -46,5 +52,16 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+    private fun logout(){
+        val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
+        val sf = sharedPreferences.edit()
+        sf.clear()
+        sf.apply()
+
+        //reload activity
+        val mIntent = activity?.intent
+        activity?.finish()
+        startActivity(mIntent)
     }
 }
