@@ -21,9 +21,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //action for registering new account
         login_belum_punya_akun.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment)
         }
+        //action for login authorization
         login_button_login.setOnClickListener {
             if(loginAuth()){
                 Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment)
@@ -31,14 +33,19 @@ class LoginFragment : Fragment() {
         }
     }
 
+    //Authorization function for login action
     private fun loginAuth() : Boolean {
         if(login_input_email.text.isNotEmpty() && login_input_password.text.isNotEmpty()){
+            //get data email dan password in shared preference
             val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
             val dataEmail = sharedPreferences.getString("EMAIL", "")
             val dataPassword = sharedPreferences.getString("PASSWORD", "")
 
+            //get input data user by user
             val inputanEmail = login_input_email.text.toString()
             val inputanPassword = login_input_password.text.toString()
+
+            //checking
             return if(inputanEmail != dataEmail || inputanPassword != dataPassword){
                 Toast.makeText(requireContext(), "email/password salah", Toast.LENGTH_SHORT).show()
                 false

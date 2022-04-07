@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-
+//Catatan data class, act as entity. Extend to parcelable
 @Entity
 @Parcelize
 data class Catatan(

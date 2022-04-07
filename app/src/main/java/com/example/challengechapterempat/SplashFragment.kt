@@ -22,6 +22,7 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
+            //check if data user is available
             val getShared = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
             if(getShared.contains("EMAIL") && getShared.contains("EMAIL") &&
                 getShared.contains("PASSWORD") && getShared.contains("KONFIRMASIPASSWORD")){

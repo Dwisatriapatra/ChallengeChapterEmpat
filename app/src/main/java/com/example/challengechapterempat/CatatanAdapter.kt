@@ -17,7 +17,9 @@ import kotlinx.coroutines.async
 @DelicateCoroutinesApi
 class CatatanAdapter(private val listCatatan : List<Catatan>) : RecyclerView.Adapter<CatatanAdapter.ViewHolder>() {
     private var dbCatatan : CatatanDatabase? = null
+    //Define ViewHolder Class
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_adapter_catatan, parent, false)
         return ViewHolder(view)
@@ -31,21 +33,31 @@ class CatatanAdapter(private val listCatatan : List<Catatan>) : RecyclerView.Ada
         //Delete data
         holder.itemView.button_delete.setOnClickListener {
             dbCatatan = CatatanDatabase.getInstance(it.context)
+
+            //create custom dialog for delete process
             val customDialogDelete = LayoutInflater.from(it.context)
                 .inflate(R.layout.custom_layout_dialog_hapus_data, null, false)
             val hapusDataDialog = AlertDialog.Builder(it.context)
                 .setView(customDialogDelete)
                 .create()
+
+            //cancel delete action
             customDialogDelete.hapus_dialog_button_cancel.setOnClickListener {
                 hapusDataDialog.dismiss()
             }
+
+            //delete action button
             customDialogDelete.hapus_dialog_button_hapus.setOnClickListener {
                 GlobalScope.async {
-                    val result = dbCatatan?.catatanDao()?.deleteDataCatatan(listCatatan[position])
 
+                    //command for room database
+                    val command = dbCatatan?.catatanDao()?.deleteDataCatatan(listCatatan[position])
+
+                    //check if delete process worked or not
                     (customDialogDelete.context as MainActivity).runOnUiThread{
-                        if(result != 0){
+                        if(command != 0){
                             Toast.makeText(customDialogDelete.context, "Catatan ${listCatatan[position].judul} berhasil dihapus", Toast.LENGTH_SHORT).show()
+                            //recreate activity after delete process
                             (customDialogDelete.context as MainActivity).recreate()
                         }else{
                             Toast.makeText(customDialogDelete.context, "Catatan ${listCatatan[position].judul} gagal dihapus", Toast.LENGTH_SHORT).show()
@@ -59,21 +71,32 @@ class CatatanAdapter(private val listCatatan : List<Catatan>) : RecyclerView.Ada
         //edit data
         holder.itemView.button_edit.setOnClickListener {
             dbCatatan = CatatanDatabase.getInstance(it.context)
+
+            //create dialog for edit action
             val customDialogEdit = LayoutInflater.from(it.context)
                 .inflate(R.layout.custom_layout_dialog_edit_data, null, false)
             val editDataDialog = AlertDialog.Builder(it.context)
                 .setView(customDialogEdit)
                 .create()
+
+            //edit action button
             customDialogEdit.edit_button_update_data.setOnClickListener {
+                //get new data
                 val newJudul = customDialogEdit.edit_input_judul.text.toString()
                 val newCatatan = customDialogEdit.edit_input_catatan.text.toString()
+
+                //re-initialize data of listCatatan that in current position
                 listCatatan[position].judul = newJudul
                 listCatatan[position].catatan = newCatatan
+
                 GlobalScope.async {
+                    //command for room database
                     val command = dbCatatan?.catatanDao()?.updateDataCatatan(listCatatan[position])
+                    //check if edit process worked or not
                     (customDialogEdit.context as MainActivity).runOnUiThread{
                         if(command != 0){
                             Toast.makeText(it.context, "Catatan berhasil diupdate", Toast.LENGTH_SHORT).show()
+                            //recreate activity
                             (customDialogEdit.context as MainActivity).recreate()
                         }else{
                             Toast.makeText(it.context, "Catatan gagal diupdate", Toast.LENGTH_SHORT).show()

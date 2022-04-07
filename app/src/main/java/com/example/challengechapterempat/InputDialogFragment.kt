@@ -25,13 +25,17 @@ class InputDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dbCatatan = CatatanDatabase.getInstance(requireContext())
+
+        //action for button "tambah data"
         tambah_button_input.setOnClickListener {
             GlobalScope.async {
+                //get judul and catatan value
                 val judul = tambah_input_judul.text.toString()
                 val catatan = tambah_input_catatan.text.toString()
-                val process = dbCatatan?.catatanDao()?.insertCatatan(Catatan(null, judul, catatan))
+                //command for room database
+                val command = dbCatatan?.catatanDao()?.insertCatatan(Catatan(null, judul, catatan))
                 activity?.runOnUiThread {
-                    if(process != 0.toLong()){
+                    if(command != 0.toLong()){
                         Toast.makeText(requireContext(), "Sukses", Toast.LENGTH_SHORT).show()
                     }else{
                         Toast.makeText(requireContext(), "Gagal", Toast.LENGTH_SHORT).show()

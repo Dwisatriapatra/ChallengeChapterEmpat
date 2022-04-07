@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+//ROOM DATABASE
 @Database(entities = [Catatan::class], version = 1)
 abstract class CatatanDatabase : RoomDatabase() {
-
+    //function to call DAO interface, DAO interface must have been defined
     abstract fun catatanDao() : CatatanDao
 
     companion object{

@@ -21,14 +21,18 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //action for button register
         register_button_daftar.setOnClickListener {
+            //checking all field, all field required
             if(register_input_username.text.isNotEmpty() &&
                 register_input_email.text.isNotEmpty() &&
                 register_input_password.text.isNotEmpty() &&
                 register_input_konfirmasi_password.text.isNotEmpty()){
+                //check the similarity between the password field and confirm password
                 if(register_input_password.text.toString() != register_input_konfirmasi_password.text.toString()){
                     Toast.makeText(requireContext(), "Password dan konfirmasi password harus sama", Toast.LENGTH_SHORT).show()
                 }else{
+                    //if similar, then input user data to shared preference
                     inputUserData()
                     Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment)
                 }
@@ -37,6 +41,8 @@ class RegisterFragment : Fragment() {
             }
         }
     }
+
+    //function for input data in shared preference
     private fun inputUserData(){
         val dataUsername = register_input_username.text.toString()
         val dataEmail = register_input_email.text.toString()

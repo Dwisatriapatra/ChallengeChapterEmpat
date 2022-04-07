@@ -28,25 +28,34 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //set text of username in home
         val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
         val username = sharedPreferences.getString("USERNAME", "")
         home_username_text.text = "Halo, $username"
-        dbCatatan = CatatanDatabase.getInstance(requireContext())
-        getDataCatatan()
 
         //action button for tambah data
         fab_tambah.setOnClickListener {
             InputDialogFragment().show(childFragmentManager, "InputDialogFragment")
         }
 
+        //setting view of recycler view in home fragment
+        dbCatatan = CatatanDatabase.getInstance(requireContext())
+        getDataCatatan()
+
         //action for logout
         logout.setOnClickListener {
             logout()
         }
     }
+
+    //function to get data of catatanDatabase
     private fun getDataCatatan() {
+        //define layout manager
         rv_catatan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        //command for room database that return all of data
         val listCatatan = dbCatatan?.catatanDao()?.getAllCatatan()
+
         GlobalScope.launch {
             activity?.runOnUiThread{
                 listCatatan.let {
@@ -55,6 +64,8 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    //function for logout action
     private fun logout(){
         AlertDialog.Builder(requireContext())
             .setTitle("LOGOUT")
