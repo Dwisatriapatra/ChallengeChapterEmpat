@@ -28,7 +28,8 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //set text of username in home
+
+        //set text of username in home using data from saved shared preference
         val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
         val username = sharedPreferences.getString("USERNAME", "")
         home_username_text.text = "Halo, $username"
@@ -59,6 +60,7 @@ class HomeFragment : Fragment() {
         GlobalScope.launch {
             activity?.runOnUiThread{
                 listCatatan.let {
+                    //set adapter
                     rv_catatan.adapter = CatatanAdapter(it!!)
                 }
             }
@@ -73,6 +75,7 @@ class HomeFragment : Fragment() {
             .setNegativeButton("Tidak"){ dialogInterface: DialogInterface, i: Int ->
                 dialogInterface.dismiss()
             }.setPositiveButton("Ya"){ dialogInterface: DialogInterface, i: Int ->
+                //clear shared preference, so the user must login again to access home after logging out
                 val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
                 val sf = sharedPreferences.edit()
                 sf.clear()

@@ -79,6 +79,10 @@ class CatatanAdapter(private val listCatatan : List<Catatan>) : RecyclerView.Ada
                 .setView(customDialogEdit)
                 .create()
 
+            //initialize edit text with previous "judul" and "catatan"
+            customDialogEdit.edit_input_judul.setText(listCatatan[position].judul)
+            customDialogEdit.edit_input_catatan.setText(listCatatan[position].catatan)
+
             //edit action button
             customDialogEdit.edit_button_update_data.setOnClickListener {
                 //get new data
@@ -92,6 +96,7 @@ class CatatanAdapter(private val listCatatan : List<Catatan>) : RecyclerView.Ada
                 GlobalScope.async {
                     //command for room database
                     val command = dbCatatan?.catatanDao()?.updateDataCatatan(listCatatan[position])
+
                     //check if edit process worked or not
                     (customDialogEdit.context as MainActivity).runOnUiThread{
                         if(command != 0){

@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-//ROOM DATABASE
+//ROOM DATABASE for Catatan
 @Database(entities = [Catatan::class], version = 1)
 abstract class CatatanDatabase : RoomDatabase() {
     //function to call DAO interface, DAO interface must have been defined
     abstract fun catatanDao() : CatatanDao
 
+    //function to get and destroy instance of catatan database
     companion object{
         private var INSTANCE : CatatanDatabase? = null
         fun getInstance(context : Context):CatatanDatabase? {
@@ -21,8 +22,9 @@ abstract class CatatanDatabase : RoomDatabase() {
             }
             return INSTANCE
         }
-        fun destroyInstance(){
-            INSTANCE = null
-        }
+
+//        fun destroyInstance(){
+//            INSTANCE = null
+//        }
     }
 }

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_input_dialog.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-//tested, success
+
 @DelicateCoroutinesApi
 class InputDialogFragment : DialogFragment() {
     private var dbCatatan : CatatanDatabase? = null
@@ -36,9 +36,9 @@ class InputDialogFragment : DialogFragment() {
                 val command = dbCatatan?.catatanDao()?.insertCatatan(Catatan(null, judul, catatan))
                 activity?.runOnUiThread {
                     if(command != 0.toLong()){
-                        Toast.makeText(requireContext(), "Sukses", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Catatan berhasil ditambahkan", Toast.LENGTH_SHORT).show()
                     }else{
-                        Toast.makeText(requireContext(), "Gagal", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Catatan gagal ditambahkan", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

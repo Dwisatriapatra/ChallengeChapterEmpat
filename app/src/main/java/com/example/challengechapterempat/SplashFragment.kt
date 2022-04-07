@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-//tested
+
 class SplashFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,14 +22,14 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-            //check if data user is available
+            //check if data user is available (was login)
             val getShared = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
-            if(getShared.contains("EMAIL") && getShared.contains("EMAIL") &&
-                getShared.contains("PASSWORD") && getShared.contains("KONFIRMASIPASSWORD")){
+            if(getShared.contains("USERNAME")){
                 Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_homeFragment)
             }else{
                 Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_loginFragment)
             }
+
         }, 4000)
     }
 }
