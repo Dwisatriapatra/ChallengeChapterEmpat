@@ -6,7 +6,11 @@
     <string name="hapus">HAPUS</string>
     <string name="cancel">CANCEL</string>
     <string name="halo_username">Halo, username</string>
-    <string name="logout">LOGOUT</string>
+    <string name="logout">Logout</string>
     <string name="judul">Judul : Contoh judul</string>
     <string name="catatan">Catatan : Contoh catatan</string>
+    <string name="login">LOGIN</string>
+    <string name="masukkan_email">Masukkan email</string>
+    <string name="masukkan_password">Masukkan password</string>
+    <string name="belum_punya_akun">Belum punya akun?</string>
 </resources>

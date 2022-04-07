@@ -1,7 +1,9 @@
 package com.example.challengechapterempat
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,14 +56,21 @@ class HomeFragment : Fragment() {
         }
     }
     private fun logout(){
-        val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
-        val sf = sharedPreferences.edit()
-        sf.clear()
-        sf.apply()
+        AlertDialog.Builder(requireContext())
+            .setTitle("LOGOUT")
+            .setMessage("Yakin ingin logout?")
+            .setNegativeButton("Tidak"){ dialogInterface: DialogInterface, i: Int ->
+                dialogInterface.dismiss()
+            }.setPositiveButton("Ya"){ dialogInterface: DialogInterface, i: Int ->
+                val sharedPreferences = requireContext().getSharedPreferences("DATAUSER", Context.MODE_PRIVATE)
+                val sf = sharedPreferences.edit()
+                sf.clear()
+                sf.apply()
 
-        //reload activity
-        val mIntent = activity?.intent
-        activity?.finish()
-        startActivity(mIntent)
+                //reload activity
+                val mIntent = activity?.intent
+                activity?.finish()
+                startActivity(mIntent)
+            }.show()
     }
 }
